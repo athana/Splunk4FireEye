@@ -1,0 +1,377 @@
+<view onunloadCancelJobs="False" autoCancelInterval="100" template="dashboard.html">
+  <!--  autoCancelInterval is set here to 100  -->
+  <label>C2</label>
+  <module name="AccountBar" layoutPanel="appHeader"/>
+  <module name="AppBar" layoutPanel="navigationHeader"/>
+  <module name="Message" layoutPanel="messaging">
+    <param name="filter">*</param>
+    <param name="clearOnJobDispatch">False</param>
+    <param name="maxSize">1</param>
+  </module>
+
+  <module name="TimeRangePicker" layoutPanel="panel_row1_col1_grp1">
+   <param name="default">All time</param>
+   <param name="searchWhenChanged">True</param>
+   <param name="label">Select Time Range:</param>
+
+   <module name="HiddenSavedSearch" layoutPanel="panel_row1_col1_grp2" autoRun="True">
+    <param name="savedSearch">FireEye C2 Events</param>
+  
+
+    <module name="SimpleResultsHeader" layoutPanel="panel_row1_col1_grp2">
+     <param name="entityName">events</param>
+     <param name="headerFormat">$count$ results</param>
+    </module>
+
+    <module name="HiddenSavedSearch" layoutPanel="panel_row2_col1_grp1" group="Command and Control" autoRun="True">
+     <param name="savedSearch">FireEye Report - C2 Summary Drilldown</param>
+
+     <module name="Paginator">
+      <param name="entityName">results</param>
+      
+      <module name="SimpleResultsTable">
+       <param name="drilldown">row</param>
+       <param name="displayMenu">true</param>
+ 
+       <module name="LinkSwitcher" layoutPanel="panel_row3_col1" group="Drilldown">
+        <param name="mode">independent</param>
+        <param name="label">    </param>
+
+        <module name="HiddenSearch" group="Malware">
+         <param name="search">`FireEye_event` dest_cnc_name=$c2$ OR dest_cnc_channel_host=$c2$ sname=* | makemv delim="::~~" dest_cnc_channel_misc | eval dest_c2_name=if(isnull(dest_cnc_channel_host),dest_cnc_name,dest_cnc_channel_host) | eval victim=if(cef_name="malware-callback",dest_ip,src_ip) | stats count as "Total Events" values(victim) as Victims count(eval(cef_name="malware-callback")) as Callbacks count(eval(cef_name="web-infection")) as "Web Infections" count(eval(cef_name="infection-match")) as "Infection Match" count(eval(cef_name="binary-analysis")) as "Analysis" by sname | eval Malware=sname | sort - "Total Events" | fields sname Malware "Total Events" Victims Callbacks "Web Infections" "Infection Match" Analysis</param>
+
+         <module name="ConvertToIntention">
+          <param name="intention">
+           <param name="name">stringreplace</param>
+           <param name="arg">
+            <param name="c2">
+             <param name="fillOnEmpty">True</param>
+             <param name="value">$click.value$</param>
+            </param>
+           </param>
+          </param>
+
+          <module name="GenericHeader">
+           <param name="label">Clicking on any row below will open a new window to FireEye's website with supplemental information on the malware</param>
+          </module>
+
+          <module name="Paginator" >
+           <param name="entityName">results</param>
+      
+           <module name="SimpleResultsTable">
+            <param name="drilldown">row</param>
+            <param name="displayMenu">true</param>
+            
+            <module name="NullModule">
+            </module>
+
+           </module>
+          </module>
+
+         </module>
+        </module>
+
+        <module name="HiddenSearch" group="Infections">
+         <param name="search">`FireEye_non-callback_event` dest_cnc_name=$c2$ OR dest_cnc_channel_host=$c2$ src_ip=* | makemv delim="::~~" dest_cnc_channel_misc | eval dest_c2_name=if(isnull(dest_cnc_channel_host),dest_cnc_name,dest_cnc_channel_host) |  stats values(dest_ip) as Source values(dest_port) as Port values(sname) as Malware values(dest_c2_name) as "C2 Names" last(start_time) as "First Time" first(start_time) as "Last Time" by src_ip link | rename src_ip as "Infected Host" | fields link "Infected Host" Source Malware "C2 Names" "First Time" "Last Time" Port | sort -"Last Time"</param>
+
+         <module name="ConvertToIntention">
+          <param name="intention">
+           <param name="name">stringreplace</param>
+           <param name="arg">
+            <param name="c2">
+             <param name="fillOnEmpty">True</param>
+             <param name="value">$click.value$</param>
+            </param>
+           </param>
+          </param>
+
+          <module name="GenericHeader">
+           <param name="label">Clicking on any row below will open a new window to the relevant FireEye appliance with supplemental information (external login required)</param>
+          </module>
+
+          <module name="Paginator" >
+           <param name="entityName">results</param>
+      
+           <module name="SimpleResultsTable">
+            <param name="drilldown">row</param>
+            <param name="displayMenu">true</param>
+            
+            <module name="NullModule">
+            </module>
+
+           </module>
+          </module>
+
+         </module>
+        </module>
+
+        <module name="HiddenSearch" group="Callbacks">
+         <param name="search">`FireEye_callback_event` dest_cnc_name=$c2$ OR dest_cnc_channel_host=$c2$ src_ip=* | makemv delim="::~~" dest_cnc_channel_misc | eval dest_c2_name=if(isnull(dest_cnc_channel_host),dest_cnc_name,dest_cnc_channel_host) | eval victim=if(cef_name="malware-callback",dest_ip,src_ip) | fillnull value=- | stats values(dest_cnc_channel_connection) as Connection values(dest_cnc_channel_accept) as Accept first(start_time) as Time values(dest_cnc_channel_action) as Action values(dest_cnc_channel_content_len) as "Content Length" values(dest_cnc_channel_content_type) as "Content Type" values(dest_cnc_channel_cpu) as CPU values(dest_cnc_channel_encoding) as Encoding values(dest_cnc_channel_if_none_match) as "If None Match" values(dest_cnc_channel_if_modified_since) as "If Mod Since" values(dest_cnc_channel_cache) as Cache values(dest_c2_name) as "C2 Name" values(dest_cnc_channel_http_ver) as HTTP-ver values(dest_cnc_channel_language) as Language values(dest_cnc_channel_uri) as "URI" values(dest_cnc_channel_user_agent) as "User Agent" values(dest_cnc_channel_misc) as "POST string" values(sname) as Malware values(dest_cnc_port) as Port values(dest_cnc_name) as Name by victim link | rename victim as Victim | fields link Victim "C2 Name" Malware Time Port Action URI HTTP-ver "User Agent" Encoding Language CPU "POST string" Connection Accept "Content Length" "Content Type" Cache "If None Match" "If Mod Since" | replace "-" with "" in Malware | replace "-" with "" in Port | sort -Time</param>
+
+         <module name="ConvertToIntention">
+          <param name="intention">
+           <param name="name">stringreplace</param>
+           <param name="arg">
+            <param name="c2">
+             <param name="value">$click.value$</param>
+            </param>
+           </param>
+          </param>
+
+          <module name="GenericHeader">
+           <param name="label">Clicking on any row below will open a new window to the relevant FireEye appliance with supplemental information (external login required)</param>
+          </module>
+
+          <module name="Paginator" >
+           <param name="entityName">results</param>
+      
+           <module name="SimpleResultsTable">
+            <param name="drilldown">row</param>
+            <param name="displayMenu">true</param>
+
+            <module name="NullModule">
+            </module>
+
+           </module>
+          </module>
+
+         </module>
+        </module>
+       
+        <module name="GenericHeader" group="Trends" layoutPanel="panel_row3_col1">
+         <param name="label">    </param>
+
+         <module name="HiddenSearch" layoutPanel="panel_row3_col1_grp1">
+          <param name="search">`FireEye_event` dest_cnc_name=$c2$ OR dest_cnc_channel_host=$c2$ | eval source=if(cef_name="malware-callback",src_ip,dest_ip) | search source=* | fillnull value="N/A" | timechart count by source useother=f</param>
+
+          <module name="ConvertToIntention">
+           <param name="intention">
+            <param name="name">stringreplace</param>
+            <param name="arg">
+             <param name="c2">
+              <param name="value">$click.value$</param>
+             </param>
+            </param>
+           </param>
+
+           <module name="HiddenChartFormatter">
+            <param name="chart">line</param>
+            <param name="charting.tooltip.maximumWidth">1000</param>
+            <param name="chartTitle">Sources</param>
+
+            <module name="FlashChart">
+             <param name="width">100%</param>
+             <param name="height">250px</param>
+
+            </module>
+           </module>
+
+          </module>
+         </module>
+       
+         <module name="HiddenSearch" layoutPanel="panel_row3_col1_grp2">
+          <param name="search">`FireEye_event` dest_cnc_name=$c2$ OR dest_cnc_channel_host=$c2$ | eval source=if(cef_name="malware-callback",src_port,dest_port) | fillnull value="N/A" | timechart count by source</param>
+
+          <module name="ConvertToIntention">
+           <param name="intention">
+            <param name="name">stringreplace</param>
+            <param name="arg">
+             <param name="c2">
+              <param name="value">$click.value$</param>
+             </param>
+            </param>
+           </param>
+
+           <module name="HiddenChartFormatter">
+            <param name="chart">line</param>
+            <param name="charting.tooltip.maximumWidth">1000</param>
+            <param name="chartTitle">Ports</param>
+
+            <module name="FlashChart">
+             <param name="width">100%</param>
+             <param name="height">250px</param>
+
+            </module>
+           </module>
+
+          </module>
+         </module>
+
+         <module name="HiddenSearch" layoutPanel="panel_row3_col1_grp3">
+          <param name="search">`FireEye_event` dest_cnc_name=$c2$ OR dest_cnc_channel_host=$c2$ sname=* | fillnull value="N/A" | timechart count by sname useother=f</param>
+
+          <module name="ConvertToIntention">
+           <param name="intention">
+            <param name="name">stringreplace</param>
+            <param name="arg">
+             <param name="c2">
+              <param name="value">$click.value$</param>
+             </param>
+            </param>
+           </param>
+
+           <module name="HiddenChartFormatter">
+            <param name="chart">line</param>
+            <param name="charting.tooltip.maximumWidth">1000</param>
+            <param name="chartTitle">Malware</param>
+
+            <module name="FlashChart">
+             <param name="width">100%</param>
+             <param name="height">250px</param>
+
+            </module>
+           </module>
+
+          </module>
+         </module>
+
+         <module name="HiddenSearch" layoutPanel="panel_row3_col1_grp1">
+          <param name="search">`FireEye_event` dest_cnc_name=$c2$ OR dest_cnc_channel_host=$c2$ dest_app=* | fillnull value="N/A" | timechart count by dest_app</param>
+
+          <module name="ConvertToIntention">
+           <param name="intention">
+            <param name="name">stringreplace</param>
+            <param name="arg">
+             <param name="c2">
+              <param name="value">$click.value$</param>
+             </param>
+            </param>
+           </param>
+
+           <module name="HiddenChartFormatter">
+            <param name="chart">line</param>
+            <param name="charting.tooltip.maximumWidth">1000</param>
+            <param name="chartTitle">Target Apps</param>
+
+            <module name="FlashChart">
+             <param name="width">100%</param>
+             <param name="height">250px</param>
+
+            </module>
+           </module>
+
+          </module>
+         </module>
+       
+         <module name="HiddenSearch" layoutPanel="panel_row3_col1_grp2">
+          <param name="search">`FireEye_event` dest_cnc_name=$c2$ OR dest_cnc_channel_host=$c2$ dest_cnc_channel_action=* | fillnull value="N/A" | timechart count by dest_cnc_channel_action </param>
+
+          <module name="ConvertToIntention">
+           <param name="intention">
+            <param name="name">stringreplace</param>
+            <param name="arg">
+             <param name="c2">
+              <param name="value">$click.value$</param>
+             </param>
+            </param>
+           </param>
+
+           <module name="HiddenChartFormatter">
+            <param name="chart">line</param>
+            <param name="charting.tooltip.maximumWidth">1000</param>
+            <param name="chartTitle">HTTP Request</param>
+
+            <module name="FlashChart">
+             <param name="width">100%</param>
+             <param name="height">250px</param>
+
+            </module>
+           </module>
+
+          </module>
+         </module>
+
+         <module name="HiddenSearch" layoutPanel="panel_row3_col1_grp3">
+          <param name="search">`FireEye_event` dest_cnc_name=$c2$ OR dest_cnc_channel_host=$c2$ dvc_ip=* | fillnull value="N/A" | timechart count by dvc_ip</param>
+
+          <module name="ConvertToIntention">
+           <param name="intention">
+            <param name="name">stringreplace</param>
+            <param name="arg">
+             <param name="c2">
+              <param name="value">$click.value$</param>
+             </param>
+            </param>
+           </param>
+
+           <module name="HiddenChartFormatter">
+            <param name="chart">line</param>
+            <param name="charting.tooltip.maximumWidth">1000</param>
+            <param name="chartTitle">Reporting Device</param>
+
+            <module name="FlashChart">
+             <param name="width">100%</param>
+             <param name="height">250px</param>
+
+            </module>
+           </module>
+
+          </module>
+         </module>
+
+        </module>
+
+        <module name="HiddenSearch" group="Correlation">
+         <param name="search">`FireEye_event` dest_cnc_name=$c2$ OR dest_cnc_channel_host=$c2$ | makemv delim="::~~" dest_cnc_channel_misc | eval dest_c2_name=if(isnull(dest_cnc_channel_host),dest_cnc_name,dest_cnc_channel_host) | eval victim=if(cef_name="malware-callback",dest_ip,src_ip) | eval source=if(cef_name="malware-callback",src_ip,dest_ip) | eval source_port=if(cef_name="malware-callback",src_port,dest_port) | stats values(source) as Source values(source_port) as Port values(sname) as Malware values(dest_c2_name) as "C2 Name" last(start_time) as "First Time" first(start_time) as "Last Time" by victim fireeye_guid | eval "Infected Host" = victim | convert timeformat="%b %d %Y %T" mktime("First Time") as earliest mktime("Last Time") as latest | strcat victim "::" earliest "::" latest correlate | fields correlate "Infected Host" Source Malware "C2 Name" "First Time" "Last Time" Port | sort -"Last Time"</param>
+
+         <module name="ConvertToIntention">
+          <param name="intention">
+           <param name="name">stringreplace</param>
+           <param name="arg">
+            <param name="c2">
+             <param name="value">$click.value$</param>
+            </param>
+           </param>
+          </param>
+
+          <module name="GenericHeader">
+           <param name="label">Clicking on any row below will open a new window with a search attempting to correlate the FireEye event with other sources</param>
+          </module>
+
+          <module name="Paginator" >
+           <param name="entityName">results</param>
+      
+           <module name="SimpleResultsTable">
+            <param name="drilldown">row</param>
+            <param name="displayMenu">true</param>
+
+            <module name="NullModule">
+            </module>
+
+           </module>
+          </module>
+
+         </module>
+        </module>
+
+       </module>
+      </module>
+
+     </module>     
+    </module>
+   </module>
+
+   <module name="HiddenSavedSearch" layoutPanel="panel_row1_col1_grp3" autoRun="True">
+    <param name="savedSearch">FireEye Metric - Distinct C2</param>
+    <module name="SingleValue">
+     <param name="beforeLabel">Distinct Channels:</param>
+    </module>
+   </module>
+
+   <module name="HiddenSavedSearch" layoutPanel="panel_row1_col1_grp4" autoRun="True">
+    <param name="savedSearch">FireEye Metric - Distinct C2 Victims</param>
+    <module name="SingleValue">
+     <param name="beforeLabel">Distinct Victims:</param>
+    </module>
+   </module>
+
+   <module name="HiddenSavedSearch" layoutPanel="panel_row1_col1_grp5" autoRun="True">
+    <param name="savedSearch">FireEye Metric - Distinct C2 Malware</param>
+    <module name="SingleValue">
+     <param name="beforeLabel">Distinct Malware:</param>
+    </module>
+   </module>
+
+  </module>
+
+</view>

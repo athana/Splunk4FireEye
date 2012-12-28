@@ -1,0 +1,143 @@
+# ### ### ### ### ### ### ### ### ### ### ### ### ##
+#                                                 ##
+#   Splunk for FireEye             		  		  ##
+#                                                 ##
+#   Description:                                  ##
+#       Field extractions and sample reports,     ##
+#        and dashboards for FireEye               ##
+#                                                 ##
+#                                                 ##
+#                                                 ##
+#                                                 ##
+#   Splunk Version:  4.3.x                        ##
+#   App Version: 2.0.3                            ##
+#   Last Modified:   September - 2012             ##
+#   Authors: Monzy Merza - Splunk, Inc.           ##
+#            Alex Raitz - Splunk, Inc.	          ##
+#            					                  ##
+#           					                  ##
+#   Many Thanks to Contributors and testers:      ##
+#            Joshua McCarthy, Shan Zhou           ##
+#            	                                  ##
+#                                                 ##
+#                                                 ##
+#   For support, contact: bd-sec@splunk.com       ##
+#                                                 ##
+#                                                 ##
+# ### ### ### ### ### ### ### ### ### ### ### ### ##
+
+
+***IMPORTANT***
+
+This app ONLY works on Splunk 4.3.x due to its heavy use of HTML 5 dashboards. 
+For setup help or feedback e-mail: bd-sec@splunk.com 
+
+The 1.x versions of this app relied on the syslog data from FireEye devices. The views, dashboards and extractions in the current app rely on the XML output format from FireEye. While the previous version's views and dashboards are included in this app, they have not been tested with the XML data format. If you really want the previous dashboards, we suggest that you not upgrade to version 2.x. OR you can customize the older views to match the fileds based on the XML.
+
+You will have to configure the FireEye to export event via http, xml in order for this app to work. Please see the FireEye Config section below for details. Short version: The http location for the FireEye log forwarding is to be of the form below: 
+
+https://localhost:8089/services/receivers/simple?source=FE_test&sourcetype=fe_xml&index=fe
+
+You should replace 'localhost', above with the name of your splunk server. *Do Not* change the sourcetype or the index parameters above. They will break the dashboards and extractions.
+
+***Common Issues***
+
+-- There is nothing on the main page.
+\- The main overview page is a realtime view. So if you don't have events in the last 5 minutes. The dashboards will be empty
+
+-- The Malware overview page has an empty dashboard for the Business Units impacted
+\- The business Unit chart works off a lookup table. You will have to create/use a lookup table that is built for your environment. The lookup table used by default is located at $SPLUNK_HOME/etc/apps/FireEye/lookups/asset_lookup.csv. For more detail on lookup tables please see this link:
+http://docs.splunk.com/Documentation/Splunk/latest/Knowledge/Addfieldsfromexternaldatasources
+
+-- Browser hangs on certain searches with very large events. 
+\- In very rare cases, for very large events, in excess of 2 Mb. the web browser hangs when attempting to return the event in the Events list.
+\- Use the table command to use the table view with specific fields instead of the entire event. e.g. alert_id=1234 | table malware_name src_ip dst_ip
+
+***Dependencies***
+
+The app requires the following Splunk Apps available from Splunk Base http://splunk-base.splunk.com/apps/ :
+
+- Splunk for Google Maps
+- Splunk for Geo Location Lookup Script
+
+You do not need to install these apps if you do not wish to use the Apps mapping and geo location features. The main dashboard will not render properly without the above apps.
+
+*** Installing ***
+
+Ensure that the apps listed in the Dependencies section are installed. 
+
+Installing via the Web UI :
+Go to Manager -> Apps -> Find more apps online: search for fireeye -> Click on the 'Install Free' link below the FireEye app (not the TA-fireeye) ->  Ready to install Page -> Install 
+
+Installing from command line:
+- Unpack the fireeye.spl file using: tar -vxzf fireeye.spl.
+- Move the resulting FireEye directoryinto $SPLUNK_HOME/etc/apps
+- Restart Splunk
+
+*** FireEye Config ***
+
+You will have to modify your FireyEye's logging configuration to send the
+logs to Splunk in xml via http. To do this, on your FireEye appliance, go
+to the Settings menu Tab, then Notifications on the left side submenu.
+Select http from the Protocol options.
+
+In the HTTP Configuration Server Listing configuration, enter a name value
+and click Add HTTP Server.  You will see your newly added server name
+listed below.  Populate the values appropriately:
+
+
+Server Url :
+https://SplunkServerIP:8089/services/receivers/simple?source=FireEyeServerN
+ame&sourcetype=fe_xml&index=fe
+
+	* You must replace the "SplunkServerIP" with correct IP of your Splunk
+server instance, it is also recommended that you replace
+	"FireEyeServerName" with the host name of FireEye MPS system from which
+alerts will be sent from.
+
+Auth : Must be checked
+
+Username : Enter your Splunk login username
+
+Password: Enter your Splunk login password
+
+Notifications : Select All Events (recommended)
+
+Delivery : Select Per Event (recommended)
+
+SSL Enable : Must be selected
+
+Message Format : XML Extended ( recommended, but any XML option can be
+used)
+
+Lastly, you should disable the syslog or any other notifications to
+Splunk; unless you want the notifications ingested twice.
+
+
+*** Source types ***
+
+As Splunk indexes your FireEye data, the app will rename the sourcetypes to FireEye_CEF, for the standard syslog, CEF format and fe_xml for the XML data.
+
+In order to get the XML data into Splunk you will have to modify your FireEye appliance by going to the Notifications section in the appliance's web ui, select http and XML for the format. The URL will be of the form below, except replace localhost with the name of your splunk server. You can also replace the source=FE_test with the name you want for your FireEye. The index=fe and the sorucetype=fe_xml should *not* be changed. the dashboards and views rely on the fe index and the fe_xml source type being present.
+
+https://localhost:8089/services/receivers/simple?source=FE_test&sourcetype=fe_xml&index=fe
+
+*** Search macros ***
+
+The dashboards rely on the search macros for views. These macros are defined in $SPLUNK_HOME/etc/apps/SplunkforFireEye/default/macros.conf. 
+
+You should only edit the base macros. Base Macros begin with BASE in their name. E.g. BASE-FireEye_index. If you already have data that has been indexed as a different sourcetype, add your sourcetype to the definition. For example:
+
+  definition = sourcetype="fe_xml" OR sourcetype="foo" OR sourcetype="bar"
+
+Important: All other macros should not be edited.
+
+*** Lookups ***
+
+Lookups are provided for a sample environment to resolve IP addresses machine hostnames to Users and business units. The lookup will have to be modified to fit your environment.
+
+***Using the form fields on the dashboards***
+
+All the dashboards work without any filtering values for the form fields. If you want to filter based on a field you should use asterisks before and after the search terms unless you are absolutely sure of the filter value. e.g. you can use 172.168.* for IP addresses or Trojan* for malware names.
+
+Keep in mind that searches that have longer time ranges may take a little longer to return the results. 

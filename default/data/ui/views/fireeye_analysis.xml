@@ -1,0 +1,275 @@
+<view onunloadCancelJobs="False" autoCancelInterval="100" template="dashboard.html">
+  
+  <!--  autoCancelInterval is set here to 100  -->
+  <label>Analysis</label>
+  <module name="AccountBar" layoutPanel="appHeader"/>
+  <module name="AppBar" layoutPanel="navigationHeader"/>
+  <module name="Message" layoutPanel="messaging">
+    <param name="filter">*</param>
+    <param name="clearOnJobDispatch">False</param>
+    <param name="maxSize">1</param>
+  </module>
+  
+  <module name="StaticContentSample" layoutPanel="panel_row1_col1">
+    <param name="text">&lt;/li&gt;&lt;/ul&gt;&lt;h2&gt;This dashboard enables deeper visibility into the analysis alerts received from your FireEye devices.&lt;/h2&gt;&lt;p&gt;
+
+&lt;p&gt;The Time Selection drop down automatically executes a search once a time period is selected.
+
+The View Full Report link above the Time Selector takes you to the main search view of the app where you continue to explore the data further.
+
+The form fields on the right allow you to filter the results that are shown in the charts and tables below. You can use the filters with exact values of fields or if you are unsure your an use wildcards to filter results.
+e.g. to search for any Victim address that might contain the numbers 109 in any position, you can type *101* in the Victim IP field and press the Enter or Return key. ;
+
+You can hover over the items in the charts to see more detailed information on sections of the pie charts or individual columns of the column charts.</param>
+  </module>
+   
+  <module name="ExtendedFieldSearch" layoutPanel="panel_row1_col3_grp1">
+    <param name="label">Alert Name</param>
+    <param name="field">name</param>
+    <param name="replacementMap">
+      <param name="arg">
+        <param name="name">
+          <param name="value"></param>
+        </param>
+      </param>
+    </param>
+    <param name="intention">
+      <param name="name">stringreplace</param>
+      <param name="arg">
+        <param name="name">
+          <param name="default"></param>
+          <param name="prefix">name="</param>
+          <param name="suffix">"</param>
+          <param name="fillOnEmpty">false</param>
+        </param>
+      </param>
+    </param>
+    <module name="ExtendedFieldSearch" layoutPanel="panel_row1_col3_grp1">
+      <param name="label">Device Name</param>
+      <param name="field">fe_appliance</param>
+      <param name="replacementMap">
+        <param name="arg">
+          <param name="fe_appliance">
+            <param name="value"></param>
+          </param>
+        </param>
+      </param>
+      <param name="intention">
+        <param name="name">stringreplace</param>
+        <param name="arg">
+          <param name="fe_appliance">
+            <param name="default"></param>
+            <param name="prefix">fe_appliance="</param>
+            <param name="suffix">"</param>
+            <param name="fillOnEmpty">false</param>
+          </param>
+        </param>
+      </param>
+      <module name="ExtendedFieldSearch" layoutPanel="panel_row1_col3_grp1">
+        <param name="label">Malware Name</param>
+        <param name="field">malware_name</param>
+        <param name="replacementMap">
+          <param name="arg">
+            <param name="malware_name">
+              <param name="value"></param>
+            </param>
+          </param>
+        </param>
+        <param name="intention">
+          <param name="name">stringreplace</param>
+          <param name="arg">
+            <param name="malware_name">
+              <param name="default"></param>
+              <param name="prefix">malware_name="</param>
+              <param name="suffix">"</param>
+              <param name="fillOnEmpty">false</param>
+            </param>
+          </param>
+        </param>
+
+         <module name="ExtendedFieldSearch" layoutPanel="panel_row1_col3_grp2">
+            <param name="label">Alert ID</param>
+            <param name="field">alert_id</param>
+            <param name="replacementMap">
+              <param name="arg">
+                <param name="alert_id">
+                  <param name="value"></param>
+                </param>
+              </param>
+            </param>
+            <param name="intention">
+              <param name="name">stringreplace</param>
+              <param name="arg">
+                <param name="alert_id">
+                  <param name="default"></param>
+                  <param name="prefix">alert_id="</param>
+                  <param name="suffix">"</param>
+                  <param name="fillOnEmpty">false</param>
+                </param>
+              </param>
+            </param>
+
+            <module name="ExtendedFieldSearch" layoutPanel="panel_row1_col3_grp2">
+              <param name="label">MD5Sum </param>
+              <param name="field">md5sum</param>
+              <param name="replacementMap">
+                <param name="arg">
+                  <param name="md5sum">
+                    <param name="value"></param>
+                  </param>
+                </param>
+              </param>
+              <param name="intention">
+                <param name="name">stringreplace</param>
+                <param name="arg">
+                  <param name="md5sum">
+                    <param name="default"></param>
+                    <param name="prefix">md5sum="</param>
+                    <param name="suffix">"</param>
+                    <param name="fillOnEmpty">false</param>
+                  </param>
+                </param>
+              </param>
+              
+        <module name="ExtendedFieldSearch" layoutPanel="panel_row1_col3_grp2">
+          <param name="label">Malware URL</param>
+          <param name="field">http_host</param>
+          <param name="replacementMap">
+            <param name="arg">
+              <param name="http_host">
+                <param name="value"></param>
+              </param>
+            </param>
+          </param>
+          <param name="intention">
+            <param name="name">stringreplace</param>
+            <param name="arg">
+              <param name="http_host">
+                <param name="default"></param>
+                <param name="prefix">http_host="</param>
+                <param name="suffix">"</param>
+                <param name="fillOnEmpty">false</param>
+              </param>
+            </param>
+          </param>
+ 
+              <module name="TimeRangePicker" layoutPanel="panel_row1_col2_grp1" autoRun="True">
+                <param name="selected">Last 60 minutes</param>
+                <param name="searchWhenChanged">True</param>
+                <module name="HiddenSearch" layoutPanel="panel_row1_col2">
+                  <param name="search">$name$ $malware_name$ $md5sum$ $alert_id$ $http_host$ $fe_appliance$ `FE-Filter-Analysis-Datacube`</param>
+                  <module name="JobProgressIndicator"></module>
+                  <module name="ViewRedirectorLink">
+                    <param name="viewTarget">flashtimeline</param>
+                    <param name="label">View Full Report</param>
+                  </module>
+                  
+                  <module name="HiddenPostProcess" layoutPanel="panel_row1_col2_grp1">
+                    <param name="search">`FE-Analysis-Alert-Distinct`</param>
+                    <module name="SingleValue">
+                    <param name="field">dc(Alert)</param>
+                    <param name="beforeLabel">Distinct Analyses:</param>
+                  </module>
+                 </module>
+                 <module name="HiddenPostProcess" layoutPanel="panel_row1_col2_grp1">
+                    <param name="search">`FE-Analysis-URL-Distinct`</param>
+                    <module name="SingleValue">
+                    <param name="field">dc(URL)</param>
+                    <param name="beforeLabel">Bad URLs:</param>
+                  </module>
+                 </module> 
+                 
+                  <module name="HiddenPostProcess" layoutPanel="panel_row2_col1">
+                    <param name="search">`FE-Filter-Analysis-Summary`</param>
+		    <module name="Paginator">
+                  <param name="count">10</param>
+                  <param name="entityName">results</param>
+                  <module name="SimpleResultsTable">
+                    <param name="drilldown">row</param>
+                    <module name="ConvertToDrilldownSearch">
+                      <module name="ViewRedirector">
+                        <param name="viewTarget">flashtimeline</param>
+                      </module>
+                    </module>
+                  </module>
+                </module>
+              </module>
+                  
+                  <module name="HiddenPostProcess" layoutPanel="panel_row2_col2">
+                    <param name="search">`FE-Analysis-URL-InfectionType-Count`</param>
+                    <module name="HiddenChartFormatter">
+                      <param name="chartTitle">Infections</param>
+                      <param name="chart">column</param>
+                      <param name="legend.placement">bottom</param>
+                      <module name="JSChart">
+                        <param name="width">100%</param>
+                        <param name="height">250px</param>
+                        <module name="ConvertToDrilldownSearch">
+                          <module name="ViewRedirector">
+                            <param name="viewTarget">flashtimeline</param>
+                          </module>
+                        </module>
+                      </module>
+                    </module>
+                  </module>
+                  <module name="HiddenPostProcess" layoutPanel="panel_row3_col1">
+                    <param name="search">`FE-Analysis-Malware-Content-Count`</param>
+                    <module name="HiddenChartFormatter">
+                      <param name="chartTitle">Content Type</param>
+                      <param name="chart">pie</param>
+                      <param name="legend.placement">right</param>
+                      <module name="JSChart">
+                        <param name="width">100%</param>
+                        <param name="height">200px</param>
+                        <module name="ConvertToDrilldownSearch">
+                          <module name="ViewRedirector">
+                            <param name="viewTarget">flashtimeline</param>
+                          </module>
+                        </module>
+                      </module>
+                    </module>
+                  </module>
+                  <module name="HiddenPostProcess" layoutPanel="panel_row3_col2">
+                    <param name="search">`FE-Analysis-Md5sum`</param>
+                    <module name="HiddenChartFormatter">
+                      <param name="chartTitle">MD5Sums</param>
+                      <param name="chart">pie</param>
+                      <param name="legend.placement">right</param>
+                      <module name="JSChart">
+                        <param name="width">100%</param>
+                        <param name="height">200px</param>
+                        <module name="ConvertToDrilldownSearch">
+                          <module name="ViewRedirector">
+                            <param name="viewTarget">flashtimeline</param>
+                          </module>
+                        </module>
+                      </module>
+                    </module>
+                  </module>
+
+                  <module name="HiddenPostProcess" layoutPanel="panel_row3_col3">
+                    <param name="search">`FE-Analysis-Alert-Count`</param>
+                    <module name="HiddenChartFormatter">
+                      <param name="chartTitle">Alerts</param>
+                      <param name="chart">column</param>
+                      <param name="legend.placement">bottom</param>
+                      <module name="JSChart">
+                        <param name="width">100%</param>
+                        <param name="height">200px</param>
+                        <module name="ConvertToDrilldownSearch">
+                          <module name="ViewRedirector">
+                            <param name="viewTarget">flashtimeline</param>
+                          </module>
+                        </module>
+                      </module>
+                    </module>
+                  </module>
+                </module>
+              </module>
+            </module>
+          </module>
+        </module>
+      </module>
+    </module>
+  </module>
+</view>

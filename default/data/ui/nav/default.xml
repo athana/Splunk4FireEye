@@ -1,0 +1,13 @@
+<nav>
+	<view name="fireeye_overview2" default="true" />
+    <!-- <view name="fireeye_overview" default='true' /> -->
+    <!-- <view name="fireeye_malware" /> -->
+    <!-- <view name="fireeye_network" /> -->
+    <view name="fireeye_analysis" />
+<!--    <view name="fire_eye_callbacks" />
+    <view name="fire_eye_hosts" />
+    <view name="fire_eye_malware" />
+    <view name="fire_eye_cnc" /> -->
+        <!-- Search -->
+    <view name="flashtimeline" />
+</nav>

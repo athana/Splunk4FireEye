@@ -1,0 +1,300 @@
+<view onunloadCancelJobs="False" autoCancelInterval="100" template="dashboard.html">
+  <!--  autoCancelInterval is set here to 100  -->
+  <label>Home</label>
+  <module name="AccountBar" layoutPanel="appHeader"/>
+  <module name="AppBar" layoutPanel="navigationHeader"/>
+  <module name="Message" layoutPanel="messaging">
+    <param name="filter">*</param>
+    <param name="clearOnJobDispatch">False</param>
+    <param name="maxSize">1</param>
+  </module>
+
+  <module name="TimeRangePicker" layoutPanel="panel_row1_col1_grp1">
+   <param name="default">Last 24 hours</param>
+   <param name="searchWhenChanged">True</param>
+   <param name="label">Select Time Range:</param>
+
+   <module name="GenericHeader" layoutPanel="panel_row1_col1_grp2">
+    <param name="label"> </param>
+   </module>
+
+
+   <module name="GenericHeader" layoutPanel="panel_row1_col1_grp3">
+    <param name="label"> </param>
+   </module>
+
+   <module name="HiddenSavedSearch" layoutPanel="panel_row1_col1_grp1" autoRun="True">
+    <param name="savedSearch">FireEye Report - Count by Event Type</param>
+
+    <module name="SimpleResultsHeader" layoutPanel="panel_row1_col1_grp1">
+     <param name="entityName">events</param>
+     <param name="headerFormat">$count$ results $time$</param>
+    </module>
+
+    <module name="HiddenSavedSearch" layoutPanel="panel_row1_col1_grp2">
+     <param name="savedSearch">FireEye Metric - Distinct Malware</param>
+     <module name="SingleValue">
+      <param name="beforeLabel">Distinct Malware:</param>
+     </module>
+    </module>
+
+    <module name="HiddenSavedSearch" layoutPanel="panel_row1_col1_grp3">
+     <param name="savedSearch">FireEye Metric - Callbacks</param>
+     <module name="SingleValue">
+      <param name="beforeLabel">Distinct Callbacks:</param>
+     </module>
+    </module>
+
+    <module name="HiddenChartFormatter" layoutPanel="panel_row1_col1_grp2">
+     <param name="chart">bar</param>
+     <param name="charting.tooltip.maximumWidth">1000</param>
+     <param name="chartTitle">Event Distribution</param>
+     <param name="primaryAxisTitle.text"> </param>
+     <param name="secondaryAxisTitle.text"> </param>
+     <param name="legend.placement">none</param>
+
+     <module name="FlashChart">
+      <param name="width">100%</param>
+      <param name="height">250px</param>
+
+      <module name="ConvertToDrilldownSearch">
+       <module name="ViewRedirector">
+        <param name="viewTarget">flashtimeline</param>
+        <param name="popup">true</param>
+       </module>
+      </module>
+     </module>   
+    </module>
+   </module>
+
+   <module name="HiddenSavedSearch" layoutPanel="panel_row1_col1_grp1" autoRun="True">
+    <param name="savedSearch">FireEye Report - Timechart by Event</param>
+
+    <module name="HiddenChartFormatter">
+     <param name="chart">area</param>
+     <param name="charting.tooltip.maximumWidth">1000</param>
+     <param name="chart.stackMode">stacked</param>
+     <param name="chartTitle">Events Over Time</param>
+     <param name="primaryAxisTitle.text"> </param>
+     <param name="legend.placement">left</param>
+
+     <module name="FlashChart">
+      <param name="width">100%</param>
+      <param name="height">250px</param>
+
+      <module name="ConvertToDrilldownSearch">
+       <module name="ViewRedirector">
+        <param name="viewTarget">flashtimeline</param>
+        <param name="popup">true</param>
+       </module>
+      </module>
+     </module>   
+    </module>
+   </module>
+
+   <module name="HiddenSavedSearch" layoutPanel="panel_row1_col1_grp3" autoRun="True">
+    <param name="savedSearch">FireEye Report - Timechart by Reporting Device</param>
+
+    <module name="HiddenChartFormatter">
+     <param name="chart">area</param>
+     <param name="charting.tooltip.maximumWidth">1000</param>
+     <param name="chartTitle">Events by Reporting Device Over Time</param>
+     <param name="primaryAxisTitle.text"> </param>
+     <param name="legend.placement">right</param>
+
+     <module name="FlashChart">
+      <param name="width">100%</param>
+      <param name="height">250px</param>
+
+      <module name="ConvertToDrilldownSearch">
+       <module name="ViewRedirector">
+        <param name="viewTarget">flashtimeline</param>
+        <param name="popup">true</param>
+       </module>
+      </module>
+     </module>   
+    </module>
+   </module>
+
+   <module name="HiddenSavedSearch" layoutPanel="panel_row1_col1_grp2" autoRun="True">
+    <param name="savedSearch">FireEye Report - Count by Callback Malware</param>
+
+    <module name="HiddenChartFormatter">
+     <param name="chart">bar</param>
+     <param name="charting.tooltip.maximumWidth">1000</param>
+     <param name="chartTitle">Callback Malware Distribution</param>
+     <param name="primaryAxisTitle.text"> </param>
+     <param name="secondaryAxisTitle.text"> </param>
+     <param name="legend.placement">none</param>
+
+     <module name="FlashChart">
+      <param name="width">100%</param>
+      <param name="height">250px</param>
+
+      <module name="ConvertToDrilldownSearch">
+       <module name="ViewRedirector">
+        <param name="viewTarget">flashtimeline</param>
+        <param name="popup">true</param>
+       </module>
+      </module>
+     </module>   
+    </module>
+   </module>
+
+   <module name="HiddenSavedSearch" layoutPanel="panel_row1_col1_grp1" autoRun="True">
+    <param name="savedSearch">FireEye Report - Timechart by Callback Host</param>
+
+    <module name="HiddenChartFormatter">
+     <param name="chart">line</param>
+     <param name="charting.tooltip.maximumWidth">1000</param>
+     <param name="chartTitle">Callbacks Over Time</param>
+     <param name="primaryAxisTitle.text"> </param>
+     <param name="legend.placement">left</param>
+
+     <module name="FlashChart">
+      <param name="width">100%</param>
+      <param name="height">250px</param>
+
+      <module name="HiddenSearch">
+       <param name="search">`FireEye_event` $dest_ip$ | fillnull dest_host value="N/A" | stats last(sname) as "Earliest Malware" first(sname) as "Most Recent Malware"  last(start_time) as "First Activity" first(start_time) as "Most Recent Activity" count(eval(cef_name="web-infection" OR cef_name="infection-match")) as Infections count(eval(cef_name="malware-callback")) as Callbacks count(eval(cef_name="binary-analysis" OR cef_name="mw-analysis-done")) as Analysis values(dvc_ip) as "Reporting Device" by dest_ip, dest_host</param>
+       <module name="ConvertToIntention">
+        <param name="intention">
+         <param name="name">stringreplace</param>
+         <param name="arg">
+          <param name="dest_ip">
+           <param name="fillOnEmpty">True</param>
+           <param name="prefix">dest_ip=</param>
+           <param name="value">$click.name2$</param>
+          </param>
+         </param>
+        </param>
+
+        <module name="ViewRedirector">
+         <param name="viewTarget">flashtimeline</param>
+         <param name="popup">true</param>
+
+        </module>
+       </module>
+      </module>
+
+     </module>   
+    </module>
+   </module>
+
+   <module name="HiddenSavedSearch" layoutPanel="panel_row1_col1_grp3" autoRun="True">
+    <param name="savedSearch">FireEye Report - Timechart by Callback Malware</param>
+
+    <module name="HiddenChartFormatter">
+     <param name="chart">line</param>
+     <param name="charting.tooltip.maximumWidth">1000</param>
+     <param name="chartTitle">Callback Malware Over Time</param>
+     <param name="primaryAxisTitle.text"> </param>
+     <param name="legend.placement">right</param>
+
+     <module name="FlashChart">
+      <param name="width">100%</param>
+      <param name="height">250px</param>
+
+      <module name="ConvertToDrilldownSearch">
+       <module name="ViewRedirector">
+        <param name="viewTarget">flashtimeline</param>
+        <param name="popup">true</param>
+       </module>
+      </module>
+     </module>   
+    </module>
+   </module>
+
+
+   <module name="HiddenSavedSearch" layoutPanel="panel_row1_col1_grp2" autoRun="True">
+    <param name="savedSearch">FireEye Report - Count by Non-Callback Malware</param>
+
+    <module name="HiddenChartFormatter">
+     <param name="chart">bar</param>
+     <param name="charting.tooltip.maximumWidth">1000</param>
+     <param name="chartTitle">Inbound Malware Distribution</param>
+     <param name="primaryAxisTitle.text"> </param>
+     <param name="secondaryAxisTitle.text"> </param>
+     <param name="legend.placement">none</param>
+
+     <module name="FlashChart">
+      <param name="width">100%</param>
+      <param name="height">250px</param>
+
+      <module name="ConvertToDrilldownSearch">
+       <module name="ViewRedirector">
+        <param name="viewTarget">flashtimeline</param>
+        <param name="popup">true</param>
+       </module>
+      </module>
+     </module>   
+    </module>
+   </module>
+
+
+   <module name="HiddenSavedSearch" layoutPanel="panel_row1_col1_grp1" autoRun="True">
+    <param name="savedSearch">FireEye Report - Timechart by Infected Host</param>
+
+    <module name="HiddenChartFormatter">
+     <param name="chart">line</param>
+     <param name="charting.tooltip.maximumWidth">1000</param>
+     <param name="chartTitle">Inbound Infections Over Time</param>
+     <param name="primaryAxisTitle.text"> </param>
+     <param name="legend.placement">left</param>
+
+     <module name="FlashChart">
+      <param name="width">100%</param>
+      <param name="height">250px</param>
+
+      <module name="HiddenSearch">
+       <param name="search">`FireEye_event` $dest_ip$ | fillnull dest_host value="N/A" | stats last(sname) as "Earliest Malware" first(sname) as "Most Recent Malware"  last(start_time) as "First Activity" first(start_time) as "Most Recent Activity" count(eval(cef_name="web-infection" OR cef_name="infection-match")) as Infections count(eval(cef_name="malware-callback")) as Callbacks count(eval(cef_name="binary-analysis" OR cef_name="mw-analysis-done")) as Analysis values(dvc_ip) as "Reporting Device" by dest_ip, dest_host</param>
+       <module name="ConvertToIntention">
+        <param name="intention">
+         <param name="name">stringreplace</param>
+         <param name="arg">
+          <param name="dest_ip">
+           <param name="fillOnEmpty">True</param>
+           <param name="prefix">dest_ip=</param>
+           <param name="value">$click.name2$</param>
+          </param>
+         </param>
+        </param>
+
+        <module name="ViewRedirector">
+         <param name="viewTarget">flashtimeline</param>
+         <param name="popup">true</param>
+
+        </module>
+       </module>
+      </module>
+
+     </module>   
+    </module>
+   </module>
+
+   <module name="HiddenSavedSearch" layoutPanel="panel_row1_col1_grp3" autoRun="True">
+    <param name="savedSearch">FireEye Report - Timechart by Non-Callback Malware</param>
+
+    <module name="HiddenChartFormatter">
+     <param name="chart">line</param>
+     <param name="charting.tooltip.maximumWidth">1000</param>
+     <param name="chartTitle">Inbound Malware Over Time</param>
+     <param name="primaryAxisTitle.text"> </param>
+     <param name="legend.placement">right</param>
+
+     <module name="FlashChart">
+      <param name="width">100%</param>
+      <param name="height">250px</param>
+
+      <module name="ConvertToDrilldownSearch">
+       <module name="ViewRedirector">
+        <param name="viewTarget">flashtimeline</param>
+       </module>
+      </module>
+     </module>   
+    </module>
+   </module>
+
+  </module>        
+
+</view>

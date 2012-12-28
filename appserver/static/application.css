@@ -1,0 +1,322 @@
+.appLogo {
+    height: 43px; 
+    width: 350px; 
+    background-image: url(appLogo.png);
+    _background-image: url(appLogo.gif); /* for IE6 */
+    background-repeat: no-repeat;
+}
+.appHeaderWrapper h1 {
+    color: #c8da4a;
+    line-height: 43px;
+    display:none;
+}
+.appHeaderWrapper a {
+    color: #BD2629;
+}
+.appHeaderWrapper {
+    background: #000000 none repeat-x scroll 0 0;
+    background-color: #FFFFFF;
+    background-repeat: repeat-x;
+    background-position: top left;
+    border-color: #BD2629;
+    border-style: solid;
+    border-width: 1px 1px 1px;
+    margin: 1px 1px 1px;
+}
+
+.splBackground-secondary, .sidebarExpanded {
+    background-color: #ffffff;
+}
+
+/*field discovery menu */
+.SuggestedFieldViewer .fieldTabs a {
+    display: block;
+    padding: 5px 15px 4px 23px;
+    position: relative;
+    text-decoration: none;
+}
+
+a {
+    color: #BD2629;
+}
+.JobStatus{
+	background-color: #ffffff
+}
+
+.splView-flashtimeline .ResultsHeader .splHeader-primary h2 {
+    background-color: #ffffff;
+    border-top-left-radius: 6px;
+}
+
+.DisableRequiredFieldsButton {
+    background: url("/en-US/static/@119532/img/skins/default/overlay_topgradient_32.png") repeat-x scroll 0 0 #ffffff;
+}
+
+table.mainSearchControlsTable .TimeRangePicker .timeRangeActivatorWrapper:hover,
+table.mainSearchControlsTable .TimeRangePicker .timeRangeActivatorWrapper:focus{
+	background-color: #FFFFFF
+	} 
+
+table.mainSearchControlsTable .TimeRangePicker .timeRangeActivatorWrapper {
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: url("/en-US/static/@119532/img/skins/default/search_bar.png") repeat scroll 0 0 #FFFFFF;
+    border-color: #BD2629;
+    border-radius: 0 0 0 0;
+    border-style: solid;
+    border-width: 1px 1px 1px 0;
+    color: #BD2629;
+    font-size: 12px;
+    height: 26px;
+}
+
+.splMenu-primary, .splMenu-primary a{
+	color: #BD2629;
+}
+
+.splButton-primary {
+    background-color: #BD2629;
+    border: 1px solid #CCCCCC;
+    color: #FFFFFF;
+}
+
+.splButton-tertiary {
+    background-color: #BD2629;
+    border: 1px solid #CCCCCC;
+    color: #FFFFFF;
+}
+
+table.mainSearchControlsTable input.searchButton {
+    border-bottom-left-radius: 0;
+    border-left-color: #BD2629;
+    border-top-left-radius: 0;
+}
+
+input.searchButton:hover , input.searchButton:focus {
+	background-color: #BD2629;
+}
+input.searchButton {
+    background-color: #BD2629;
+}
+.splButton-primary:hover , .splButton-primary:focus {
+	background-color: #BD2629;
+}
+.SearchBar .searchFieldWrapperInner {
+    border-color: #BD2629;
+}
+
+.splView-flashtimeline .ResultsHeader .splHeader-primary {
+    background: url("/en-US/static/@119532/img/skins/default/overlay_topgradient_32.png") repeat-x scroll 0 0 #ffffff;
+    border-color: #FFFFFF;
+    padding-top: 5px;
+}
+
+.splView-flashtimeline .JobStatus {
+    background: url("/en-US/static/@119532/img/skins/default/overlay_bottomgradient_32.png") repeat-x scroll left bottom #FFFFFF;
+    border-bottom-color: #ffffff;
+}
+
+div.FlashTimeline {
+    background-color: #fbfbfb;
+    border-left-color: #000;
+    color: #000;
+    /* the color of the histogram bar. border-right-color = fill */
+    border-right-color: #BD2629; 
+}
+
+/* popup bar chart; should be same color as flash timeline */
+.splBarGraphBar {
+background-color: #BD2629;
+}
+
+/* background of bar graph */
+.splBarGraph {
+background:#FFFFFF;
+}
+
+/* loader background. the top right thingy*/
+#loading {
+    background-color: #BD2629;
+}
+
+.SearchBar .assistantActivator {
+    background-color: #BD2629;
+    background-image: url("/en-US/static/@119532/img/skins/default/overlay_gradient_28.png");
+    background-repeat: repeat-x;
+}
+
+/*remove double border from search bar*/
+table.mainSearchControlsTable .SearchBar .searchFieldWrapper {
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: url("/en-US/static/@119532/img/skins/default/search_bar.png") repeat scroll 0 0 #73A550;
+    border-bottom-right-radius: 0;
+    border-color: none;
+    border-style: none;
+    border-top-right-radius: 0;
+    border-width: 1px 0 1px 1px;
+}
+   
+.splMenu-secondary, .splMenu-secondary a {
+	color: #BD2629;
+}
+
+/* secondary menu, used for apps pulldown */
+.splMenu-secondary li:hover {
+    background-color: #BD2629;
+}
+.splMenu-secondary a:hover {
+    color: #FFFFFF;   
+}
+
+.dashboardCell .FlashChart {
+    padding-left: 25px;
+}
+.dashboardContent .SplunkModule.LinkSwitcher {
+    padding: 0px 15px 12px;
+}
+.dashboardContent .SplunkModule.Paginator {
+    padding: 5px 10px 15px;
+}
+.dashboardCell {
+    padding: 10px;
+    border-color: #BD2629;
+    border-style: solid;
+    border-width: 1px 1px 1px;
+}
+.layoutCellInner {
+    margin: 1px 0 0;
+}
+.firstCell .layoutCellInner {
+    margin-left: 1px;
+    margin-right: 1px;
+}
+.lastCell .layoutCellInner {
+    margin-left: 1px;
+    margin-right: 1px;
+}
+.layoutCellInner .ResultsHeader {
+    padding: 5px;
+}
+.LinkSwitcher a {
+    font-size: 14px;
+}
+h3 {
+    color: #3F3E29;
+}
+.viewHeader, .mainSearchControls, .splSearchControls-inline, .SearchBar .saHelpWrapper {
+    background-color: #FFFFFF;
+    background-image: none;
+}
+.TitleBar .splHeader, .FieldPickerPopup .splHeader-primary {
+    background-color: #FFFFFF;
+    background-image: none;
+}
+.SimpleResultsHeader {
+    padding: 5px;
+}
+.dashboardContent .SimpleResultsHeader h3 {
+    font-weight: normal;
+    padding: 20px 5px 5px;
+    font-size: 14px;
+    color: #3F3E29;
+}
+.SingleValueHolder {
+    background: none;
+    background-image: none;
+    -moz-box-shadow: none;
+    float: none;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 20px 10px;
+    text-align: center;
+    width: auto;
+    color: #3F3E29;
+}
+.splHeader h2 {
+    float: none;
+    margin: 15px 10px 10px;
+    text-align: center;
+}
+h2 {
+    color: #111111;
+    font-size: 14px;
+    font-weight: normal;
+}
+.TimeRangePicker label.timeRangePickerLabel {
+    font-weight: bold;
+}
+.TimeRangePicker .timeRangeActivatorWrapper {
+    background-color: #FFFFFF;
+}
+.SimpleResultsTable table.enableMouseover tr td.d {
+    color: #BD2629;
+    cursor: crosshair;
+}
+.splMenu-secondary ul {
+    background-color: #FFFFFF; 
+    border-color: #BD2629;
+}
+.AccountBar ul.accountBarItems li {
+    color: #BD2629;
+}
+table.splTable th a {
+    color: #3F3E29;
+}
+.splView-fire_eye_callbacks .dashboardContent .GenericHeader h3,
+.splView-fire_eye_cnc .dashboardContent .GenericHeader h3,
+.splView-fire_eye_hosts .dashboardContent .GenericHeader h3,
+.splView-fire_eye_malware .dashboardContent .GenericHeader h3 {
+    padding: 1px 16px 5px;
+    margin: 0 0 0;
+    font-weight: lighter;
+    font-size: 11px;
+    color: #111111;
+}
+.splView-fire_eye_callbacks .layoutCellInner .ResultsHeader,
+.splView-fire_eye_cnc .layoutCellInner .ResultsHeader,
+.splView-fire_eye_hosts .layoutCellInner .ResultsHeader,
+.splView-fire_eye_malware .layoutCellInner .ResultsHeader {
+    padding: 0px;
+}
+.splView-fire_eye_callbacks .SingleValueHolder,
+.splView-fire_eye_cnc .SingleValueHolder,
+.splView-fire_eye_hosts .SingleValueHolder,
+.splView-fire_eye_malware .SingleValueHolder {
+    text-align: left;
+}
+.splView-fire_eye_hosts .splHeader h2,
+.splView-fire_eye_callbacks .splHeader h2,
+.splView-fire_eye_cnc .splHeader h2,
+.splView-fire_eye_malware .splHeader h2 {
+    float: left;
+    color: #3F3E29;
+    padding: 5px 5px 5px;
+    font-size: 16px;
+}
+.splView-fire_eye_main .layoutCellInner .ResultsHeader {
+    padding: 10px;
+}
+.splView-flashtimeline .splHeader h2 {
+    float: left;
+    margin: 0 5px 0 10px;
+    text-align: left;
+}
+.splHeader-dashboard span {
+    padding: 10px 10px 0;
+}
+.LinkSwitcher a {
+    padding-left: 15px;
+}
+input, textarea, select {
+    margin-top: 15px;
+}
+.splView-fire_eye_main .GenericHeader h3 {
+    margin: 0 0 50px;
+
