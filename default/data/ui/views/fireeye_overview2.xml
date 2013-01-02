@@ -22,7 +22,7 @@
         <param name="searchWhenChanged">true</param>
 
         <module name="HiddenSearch" autoRun="true">
-            <param name="search">`BASE-FireEye_index` `BASE-FireEye_sourcetype`|xmlkv</param>
+            <param name="search">`BASE-FireEye_index` `BASE-FireEye_sourcetype` | bin _time span=5min | xmlkv | stats count by host, malware_name, _time</param>
 
             <!-- Top 10 Infected Hosts -->
             <module name="HiddenPostProcess" layoutPanel="panel_row2_col1" autoRun="true">
@@ -43,7 +43,7 @@
                     </module>
                 </module>
                 <module name="JobProgressIndicator"></module>
-            </module>
+            </module> <!-- HiddenPostProcess -->
 
             <!-- Top 10 Malware -->
             <module name="HiddenPostProcess" layoutPanel="panel_row2_col2" autoRun="true">
@@ -64,7 +64,7 @@
                     </module>
                 </module>
                 <module name="JobProgressIndicator" />
-            </module>
+            </module> <!-- HiddenPostProcess -->
 
             <!-- FireEye Event Count over Time -->
             <module name="HiddenPostProcess" layoutPanel="panel_row3_col1" autoRun="true">
@@ -89,8 +89,7 @@
                     </module>
                 </module>
                 <module name="JobProgressIndicator" />
-            </module>
-
+            </module> <!-- HiddenPostProcess -->
 
         </module> <!-- HiddenSearch -->
     </module> <!-- TimeRangePicker -->
