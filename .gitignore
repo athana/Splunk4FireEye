@@ -47,7 +47,10 @@ local.properties
 *_i.c
 *_p.c
 *.ilk
-*.meta
+
+# Comment the following line to include metadata directory.
+# *.meta
+
 *.obj
 *.pch
 *.pdb
