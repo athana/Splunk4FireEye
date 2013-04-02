@@ -24,9 +24,16 @@
         <module name="HiddenSearch" autoRun="true">
             <param name="search">`BASE-FireEye_index` `BASE-FireEye_sourcetype` | bin _time span=5min | xmlkv | stats count by host, malware_name, _time</param>
 
+            <module name="HiddenPostProcess" layoutPanel="panel_row1_col2" autoRun="true">
+                <param name="search">stats sum(count) AS events</param>
+                <module name="SingleValue">
+                    <param name="beforeLabel">Total Events:</param>
+                </module>
+            </module> <!-- HiddenPostProcess -->
+
             <!-- Top 10 Infected Hosts -->
             <module name="HiddenPostProcess" layoutPanel="panel_row2_col1" autoRun="true">
-                <param name="search">top limit=10 host</param>
+                <param name="search">stats sum(count) AS events by host | sort -events | head 10</param>
                 <module name="HiddenChartFormatter">
                     <param name="chart">bar</param>
                     <param name="chartTitle">Top 10 Infected Hosts</param>
@@ -47,7 +54,7 @@
 
             <!-- Top 10 Malware -->
             <module name="HiddenPostProcess" layoutPanel="panel_row2_col2" autoRun="true">
-                <param name="search">top limit=10 malware_name</param>
+                <param name="search">stats sum(count) AS events by malware_name | sort -events | head 10</param>
                 <module name="HiddenChartFormatter">
                     <param name="chart">bar</param>
                     <param name="chartTitle">Top 10 Malware</param>
@@ -68,7 +75,7 @@
 
             <!-- FireEye Event Count over Time -->
             <module name="HiddenPostProcess" layoutPanel="panel_row3_col1" autoRun="true">
-                <param name="search">timechart count</param>
+                <param name="search">timechart sum(count) AS events</param>
             <!-- <module name="HiddenSearch" layoutPanel="panel_row3_col1" autoRun="true"> -->
                 <!-- <param name="search">`BASE-FireEye_index` `BASE-FireEye_sourcetype` | bin _time span=1d | stats count by _time</param> -->
 
